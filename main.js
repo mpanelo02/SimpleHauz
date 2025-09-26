@@ -194,7 +194,7 @@ loader.load('./House2F.glb', function(gltf) {
 const sun = new THREE.DirectionalLight( 0xFFFFFF );
 sun.castShadow = true;
 // sun.position.set( -2, 5, -2 );
-sun.position.set( -40, 40, 40 );
+sun.position.set( -20, 40, 20 );
 sun.target.position.set( 0, 0, 0 );
 sun.shadow.mapSize.width = 4096;
 sun.shadow.mapSize.height = 4096;
@@ -209,11 +209,11 @@ const light = new THREE.AmbientLight( 0x404040, 4 );
 scene.add( light );
 
 const camera = new THREE.PerspectiveCamera(35, sizes.width / sizes.height, 0.1, 1000 );
-camera.position.set(-15, 10, 30); // <-- Initial / Start position (X, Y, Z)
-camera.lookAt(0, 7, 0); // <-- Where the camera is pointing (X, Y, Z)
+camera.position.set(-20, 5, 25); // <-- Initial / Start position (X, Y, Z)
+camera.lookAt(-1, 2, -1); // <-- Where the camera is pointing (X, Y, Z)
 
 const controls = new OrbitControls( camera, canvas );
-controls.target.set(0, 1.5, 0);
+controls.target.set(-1, 1.5, -1);
 controls.update();
 
 // Light for the house
@@ -475,24 +475,91 @@ function setupArrowButtonListeners() {
   });
 }
 
-// Codes for Display of Time and Date
-function updateDateTime() {
+// Codes for Display of Date and Weather
+// Weather API configuration
+const api_url = "http://api.weatherapi.com/v1/current.json?key=2fe366fe021e418288f204115252509&q=Vantaa&aqi=no";
+    
+const headers = {
+    'Content-Type': 'application/json',
+    'ApiKey': '2fe366fe021e418288f204115252509'
+};
+
+// Format the current date
+function formatDate() {
     const now = new Date();
-    const optionsDate = { year: 'numeric', month: 'long', day: 'numeric' };
-    const formattedDate = now.toLocaleDateString(undefined, optionsDate);
-
-    const formattedTime = now.toLocaleTimeString(undefined, {
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit'
-    });
-
-    document.getElementById('vantaa-date').textContent = formattedDate;
-    document.getElementById('vantaa-clock').textContent = formattedTime;
+    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    return now.toLocaleDateString('en-US', options);
 }
 
-updateDateTime();
-setInterval(updateDateTime, 1000);
+// Update the date display
+document.getElementById('current-date').textContent = formatDate();
+
+async function getWeather() {
+    try {
+        const response = await fetch(api_url, {
+            method: 'GET',
+            headers: headers
+        });
+            
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+                
+        const data = await response.json();
+        displayWeather(data);
+                
+     } catch (error) {
+        console.error('Fetch error:', error);
+        displayError(error.message);
+    }
+}
+
+function displayWeather(data) {
+    const weatherContent = document.getElementById('weather-content');
+            
+    // Extract the relevant data from the response
+    const condition = data.current.condition.text;
+    const iconUrl = "https:" + data.current.condition.icon; // Add https: to make it a valid URL
+    const temperature = Math.round(data.current.temp_c); // Temperature in Celsius
+    const humidity = data.current.humidity;
+    const windSpeed = data.current.wind_kph;
+    const feelsLike = Math.round(data.current.feelslike_c);
+            
+    // Create the weather display HTML
+    weatherContent.innerHTML = `
+        <img src="${iconUrl}" alt="${condition}" class="weather-icon">
+        <div class="temperature">${temperature}°C</div>
+        <div class="condition">${condition}</div>
+        <div class="details">
+            <div class="detail-item">
+                <div class="detail-label">Humidity</div>
+                <div class="detail-value">${humidity}%</div>
+            </div>
+            <div class="detail-item">
+                <div class="detail-label">Wind</div>
+                <div class="detail-value">${windSpeed} km/h</div>
+            </div>
+            <div class="detail-item">
+                <div class="detail-label">Feels Like</div>
+                <div class="detail-value">${feelsLike}°C</div>
+            </div>
+        </div>
+    `;
+}
+
+function displayError(message) {
+    const weatherContent = document.getElementById('weather-content');
+    weatherContent.innerHTML = `
+        <div class="error">
+            <p>Failed to load weather data</p>
+            <p>Error: ${message}</p>
+            <p>Try again later.</p>
+        </div>
+    `;
+}
+
+// Fetch weather data when page loads
+getWeather();
 
 enterButton.addEventListener("click", () => {
   // playButtonSound();
@@ -598,18 +665,6 @@ function toggleTheme() {
 
   renderer.setClearColor(isBright ? 0xeeeeee : 0x111111, 1);
 
-  const containers = [
-    document.getElementById('vantaa-date-container'),
-    document.getElementById('vantaa-time-container'),
-
-  ];  
-
-  const newFontColor = isBright ? 'black' : 'white';
-  containers.forEach(container => {
-    if (container) {
-      container.style.color = newFontColor;
-    }
-  });
 }
 
 // Theme toggle button
@@ -806,7 +861,7 @@ function animate() {
         controls.maxDistance = 35;
         controls.minDistance = 3;
         controls.minPolarAngle = THREE.MathUtils.degToRad(35);
-        controls.maxPolarAngle = THREE.MathUtils.degToRad(70);
+        controls.maxPolarAngle = THREE.MathUtils.degToRad(60);
     } else {
         // 2D mode restrictions - limit movement for top-down view
         controls.maxDistance = 35;
