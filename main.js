@@ -210,10 +210,10 @@ scene.add( light );
 
 const camera = new THREE.PerspectiveCamera(35, sizes.width / sizes.height, 0.1, 1000 );
 camera.position.set(-20, 5, 25); // <-- Initial / Start position (X, Y, Z)
-camera.lookAt(-1, 2, -1); // <-- Where the camera is pointing (X, Y, Z)
+camera.lookAt(-2, 2, 0); // <-- Where the camera is pointing (X, Y, Z)
 
 const controls = new OrbitControls( camera, canvas );
-controls.target.set(-1, 1.5, -1);
+controls.target.set(-2, 1.5, 0);
 controls.update();
 
 // Light for the house
@@ -477,11 +477,8 @@ function setupArrowButtonListeners() {
 
 // Codes for Display of Date and Weather
 // Weather API configuration
-const api_url = "http://api.weatherapi.com/v1/current.json?key=2fe366fe021e418288f204115252509&q=Vantaa&aqi=no";
-    
-const headers = {
-    'Content-Type': 'application/json',
-    'ApiKey': '2fe366fe021e418288f204115252509'
+const weatherHeaders = {
+    'Content-Type': 'application/json'
 };
 
 // Format the current date
@@ -496,21 +493,18 @@ document.getElementById('current-date').textContent = formatDate();
 
 async function getWeather() {
     try {
-        const response = await fetch(api_url, {
-            method: 'GET',
-            headers: headers
-        });
-            
+        // Use the full backend URL instead of relative path
+        const response = await fetch("https://valk-huone-1.onrender.com/api/weather");
+        
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
-                
+        
         const data = await response.json();
         displayWeather(data);
-                
-     } catch (error) {
-        console.error('Fetch error:', error);
-        displayError(error.message);
+    } catch (error) {
+        console.error('Weather fetch error:', error);
+        displayError('Failed to load weather data. Please try again later.');
     }
 }
 
@@ -528,20 +522,20 @@ function displayWeather(data) {
     // Create the weather display HTML
     weatherContent.innerHTML = `
         <img src="${iconUrl}" alt="${condition}" class="weather-icon">
-        <div class="temperature">${temperature}°C</div>
+        <div id="outer-temperature" class="temperature">${temperature}°C</div>
         <div class="condition">${condition}</div>
         <div class="details">
             <div class="detail-item">
                 <div class="detail-label">Humidity</div>
-                <div class="detail-value">${humidity}%</div>
+                <div id="outer-humidity" class="detail-value">${humidity}%</div>
             </div>
             <div class="detail-item">
                 <div class="detail-label">Wind</div>
-                <div class="detail-value">${windSpeed} km/h</div>
+                <div id="outer-wind-speed" class="detail-value">${windSpeed} km/h</div>
             </div>
             <div class="detail-item">
                 <div class="detail-label">Feels Like</div>
-                <div class="detail-value">${feelsLike}°C</div>
+                <div id="outer-feels-like" class="detail-value">${feelsLike}°C</div>
             </div>
         </div>
     `;
@@ -552,7 +546,7 @@ function displayError(message) {
     weatherContent.innerHTML = `
         <div class="error">
             <p>Failed to load weather data</p>
-            <p>Error: ${message}</p>
+            
             <p>Try again later.</p>
         </div>
     `;

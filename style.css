@@ -83,7 +83,7 @@
     position: fixed; /* Add this */
     top: 50px; /* Position from top */
     left: 20px; /* Position from left */
-    background-color: rgba(255, 255, 255, 0.9);
+    background-color: transparent;
     border-radius: 20px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
     padding: 20px; /* Reduced padding for better fit */
@@ -94,9 +94,9 @@
     z-index: 9998; /* High z-index to stay above other elements */
 }
         
-.weather-card:hover {
+/* .weather-card:hover {
     transform: translateY(-5px);
-}
+} */
         
 .location {
     font-size: 20px;
