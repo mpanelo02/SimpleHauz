@@ -210,10 +210,10 @@ scene.add( light );
 
 const camera = new THREE.PerspectiveCamera(35, sizes.width / sizes.height, 0.1, 1000 );
 camera.position.set(-20, 5, 25); // <-- Initial / Start position (X, Y, Z)
-camera.lookAt(-2, 2, 0); // <-- Where the camera is pointing (X, Y, Z)
+camera.lookAt(0, 2, 0); // <-- Where the camera is pointing (X, Y, Z)
 
 const controls = new OrbitControls( camera, canvas );
-controls.target.set(-2, 1.5, 0);
+controls.target.set(0, 1.5, 0);
 controls.update();
 
 // Light for the house
