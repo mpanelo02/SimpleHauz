@@ -65,10 +65,10 @@ renderer.toneMapping = THREE.ACESFilmicToneMapping;
 // renderer.toneMappingExposure = 1.5;
 
 const modalContent = {
-  "ProjectMario":{
-    title: "Project Mario",
-    content: "This is project one. Hello World!",
-    link: "https://www.linkedin.com/in/mark-johnson-panelo-82030a325/",
+  "ClickMe":{
+    title: "Control Keys",
+    content: " w = move forward <br> s = move backward <br> a = move left <br> d = move right <br> r = respawn <br> left-click = for direction",
+    // link: "https://www.linkedin.com/in/mark-johnson-panelo-82030a325/",
   },
 }
 
@@ -84,7 +84,9 @@ function showModal(id) {
   const content = modalContent[id];
   if (content) {
     modalTitle.textContent = content.title;
-    modalProjectDesription.textContent = content.content;
+    // modalProjectDesription.textContent = content.content;
+    modalProjectDesription.innerHTML = content.content.replace(/\n/g, "<br>");
+
 
     if(content.link) {
       modalVisitProjectButton.href = content.link;
@@ -111,6 +113,7 @@ const intersectObjectsNames = [
   "SwitchST",
   "SwitchMB",
   "SwitchLR",
+  "ClickMe",
 ];
 
 
@@ -137,7 +140,7 @@ manager.onLoad = function () {
   setTimeout(() => {
     if (loadingScreenButton) {
       loadingScreenButton.style.border = "8px solid #e6dede";
-      loadingScreenButton.style.background = "#6b3279";
+      loadingScreenButton.style.background = "#8f44a2";
       loadingScreenButton.style.color = "#e6dede";
       loadingScreenButton.style.boxShadow = "rgba(0, 0, 0, 0.24) 0px 3px 8px";
       loadingScreenButton.textContent = " Enter! ";
@@ -153,12 +156,12 @@ manager.onLoad = function () {
 
     loadingScreenButton.style.cursor = "default";
     loadingScreenButton.style.border = "8px solid #e6dede";
-    loadingScreenButton.style.background = "#6b3279";
+    loadingScreenButton.style.background = "#8f44a2";
     loadingScreenButton.style.color = "#e6dede";
     loadingScreenButton.style.boxShadow = "none";
     loadingScreenButton.textContent = "~ Terve ~";
     if (loadingScreen) {
-      loadingScreen.style.background = "#6b3279";
+      loadingScreen.style.background = "#8f44a2";
     }
     isDisabled = true;
 
@@ -485,6 +488,9 @@ function onClick() {
     } else if (intersectObject === "Switch2F") {
       // Toggle lights for Switch2F
       toggle2FLights();
+    // } else if (intersectObject === "ClickMe") {
+    //   // Toggle lights for ClickMe
+    //   toggleClickMeLights();
     } else {
       showModal(intersectObject);
     }
@@ -1219,7 +1225,7 @@ function animate() {
   // Handle cursor changes for both first-person and third-person modes
   if (intersects.length > 0) {
     // Check if we're intersecting with a switch object
-    const isSwitchObject = ["SwitchLR", "SwitchHW", "SwitchST", "SwitchB1", "SwitchB2", "SwitchMB", "Switch2F"].includes(intersects[0].object.parent.name);
+    const isSwitchObject = ["SwitchLR", "SwitchHW", "SwitchST", "SwitchB1", "SwitchB2", "SwitchMB", "Switch2F", "ClickMe"].includes(intersects[0].object.parent.name);
     
     if (isFirstPersonMode) {
       // In first-person mode, only show pointer for switches, otherwise keep crosshair

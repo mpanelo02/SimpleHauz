@@ -52,7 +52,8 @@
   z-index: 999999;
   /* background-color: #2a0f4e; */
   /* background-color: #401d49; */
-  background-color: #6b3279;
+  /* background-color: #6b3279; */
+  background-color: #8f44a2;
   /* background-color: #F0A39D; */
   /* background-color: #F7B11E; */
   /* background-color: #E06C71; */
@@ -102,10 +103,11 @@
     left: 50%;
     transform: translate(-50%, -50%);
     width: 100%;
-    max-width: 700px;
-    background-color: #ad8671;
+    max-width: 400px;
+    background-color: #c59fc5;
     border: 2px solid #fff;
     color: #fff;
+    border-radius: 6px;
 
 }
 
@@ -113,14 +115,35 @@
     padding: 12px;
     
 }
+.modal-content {
+    font-size: 20px;
+    
+}
 
 .modal-header {
     width: 100%;
     display: flex;
+    font-size: 20px;
     flex-direction: row;
     justify-content: space-between;
 }
 
+.modal-exit-button {
+  border: 3px solid white;
+  border-radius: 6px;
+  padding: 8px 10px;
+  background-color: #c59fc5;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+.modal-exit-button:hover {
+    background-color: white;
+    color: #c59fc5;
+    border: 3px solid white;
+}
+
+/* ----- Weather Style ----- */
 .weather-card {
     position: fixed; /* Add this */
     top: 50px; /* Position from top */
