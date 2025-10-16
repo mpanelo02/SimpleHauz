@@ -1,4 +1,3 @@
-// alert("Hello World!");
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
@@ -115,8 +114,136 @@ const intersectObjectsNames = [
 ];
 
 
-const loader = new GLTFLoader();
+// ------Loading Screen Script------
+let touchHappened = false;
+let isModalOpen = true;
 
+// Create loading manager and connect it to the loader
+const manager = new THREE.LoadingManager();
+const loader = new GLTFLoader(manager); // Connect manager to loader
+
+const loadingScreen = document.getElementById("loadingScreen");
+const loadingScreenButton = document.querySelector(".loading-screen-button");
+
+// Define background music variable (add your audio file)
+let backgroundMusic = null;
+// Uncomment and configure when you have audio:
+// backgroundMusic = new Audio('path/to/your/audio.mp3');
+// backgroundMusic.loop = true;
+
+manager.onLoad = function () {
+  console.log("All resources loaded");
+  
+  setTimeout(() => {
+    if (loadingScreenButton) {
+      loadingScreenButton.style.border = "8px solid #e6dede";
+      loadingScreenButton.style.background = "#6b3279";
+      loadingScreenButton.style.color = "#e6dede";
+      loadingScreenButton.style.boxShadow = "rgba(0, 0, 0, 0.24) 0px 3px 8px";
+      loadingScreenButton.textContent = " Enter! ";
+      loadingScreenButton.style.cursor = "pointer";
+      loadingScreenButton.style.transition = "transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)";
+    }
+  }, 1000); // Reduced from 3000ms for faster feedback
+  
+  let isDisabled = false;
+
+  function handleEnter() {
+    if (isDisabled || !loadingScreenButton) return;
+
+    loadingScreenButton.style.cursor = "default";
+    loadingScreenButton.style.border = "8px solid #e6dede";
+    loadingScreenButton.style.background = "#6b3279";
+    loadingScreenButton.style.color = "#e6dede";
+    loadingScreenButton.style.boxShadow = "none";
+    loadingScreenButton.textContent = "~ Terve ~";
+    if (loadingScreen) {
+      loadingScreen.style.background = "#6b3279";
+    }
+    isDisabled = true;
+
+    toggleFavicons();
+    
+    // Play background music if available
+    if (backgroundMusic) {
+      backgroundMusic.play().catch(e => {
+        console.log("Background music play failed:", e);
+      });
+    }
+    
+    playReveal();
+  }
+
+  // Add event listeners only if elements exist
+  if (loadingScreenButton) {
+    loadingScreenButton.addEventListener("mouseenter", () => {
+      loadingScreenButton.style.transform = "scale(1.3)";
+    });
+
+    loadingScreenButton.addEventListener("touchend", (e) => {
+      touchHappened = true;
+      e.preventDefault();
+      handleEnter();
+    });
+
+    loadingScreenButton.addEventListener("click", (e) => {
+      if (touchHappened) return;
+      handleEnter();
+    });
+
+    loadingScreenButton.addEventListener("mouseleave", () => {
+      loadingScreenButton.style.transform = "none";
+    });
+  }
+};
+
+// Add error handling for the loading manager
+manager.onError = function (url) {
+  console.error('Error loading:', url);
+};
+
+function toggleFavicons() {
+    console.log("Favicon toggled");
+}
+
+function playIntroAnimation() {
+    const mainContent = document.getElementById("mainContent");
+    if (mainContent) {
+        mainContent.style.display = "block";
+    }
+    console.log("Intro animation played");
+}
+
+function playReveal() {
+  if (!loadingScreen) return;
+  
+  const tl = gsap.timeline();
+
+  tl.to(loadingScreen, {
+    scale: 0.5,
+    duration: 1.2,
+    delay: 0.25,
+    ease: "back.in(1.8)",
+  }).to(
+    loadingScreen,
+    {
+      y: "-200vh",
+      transform: "perspective(1000px) rotateX(45deg) rotateY(-70deg)",
+      duration: 1.2,
+      ease: "back.in(1.8)",
+      onComplete: () => {
+        isModalOpen = false;
+        playIntroAnimation();
+        if (loadingScreen) {
+          loadingScreen.remove();
+        }
+      },
+    },
+    "-=0.1"
+  );
+}
+
+// ------ Model Loader ------
 loader.load( "./House1F.glb", function ( glb ) {
   glb.scene.traverse( function ( child ) {
     if (intersectObjectsNames.includes(child.name)) {
@@ -700,9 +827,7 @@ function setupArrowButtonListeners() {
         house2FModel.visible = false;
         isSecondFloorHidden = true;
         // // Safely handle lights if they exist
-        // if (namedLights.rectLight15) namedLights.rectLight15.visible = false;
-        // if (namedLights.rectLight16) namedLights.rectLight16.visible = false;
-        // if (namedLights.rectLight17) namedLights.rectLight17.visible = false;
+        if (namedLights.rectLight10) namedLights.rectLight10.visible = false;
         // console.log("Second floor hidden");
       }
     } else if (isRoofHidden && isSecondFloorHidden) {
@@ -718,9 +843,7 @@ function setupArrowButtonListeners() {
       if (house2FModel) {
         house2FModel.visible = true;
         isSecondFloorHidden = false;
-        // if (namedLights.rectLight15) namedLights.rectLight15.visible = true;
-        // if (namedLights.rectLight16) namedLights.rectLight16.visible = true;
-        // if (namedLights.rectLight17) namedLights.rectLight17.visible = true;
+        if (namedLights.rectLight10) namedLights.rectLight10.visible = true;
         // console.log("Second floor shown");
       }
     } else if (!isSecondFloorHidden && isRoofHidden) {

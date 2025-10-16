@@ -39,6 +39,61 @@
     display: none;
 }
 
+/****** Loading Screen ******/
+.loading-screen {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 108vw;
+  height: 108vh;
+  margin-left: -54vw;
+  margin-top: -54vh;
+  overflow: hidden;
+  z-index: 999999;
+  /* background-color: #2a0f4e; */
+  /* background-color: #401d49; */
+  background-color: #6b3279;
+  /* background-color: #F0A39D; */
+  /* background-color: #F7B11E; */
+  /* background-color: #E06C71; */
+  transform: perspective(1000px);
+  border-radius: 48px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.loading-screen-button {
+  font-family: "Motley Forces", sans-serif;
+  background-color: transparent;
+  padding: 10px 40px;
+  outline: none;
+  color: #e6dede;
+  /* border-radius: 1.2rem; */
+  border: none;
+  font-size: 42px;
+  cursor: default;
+}
+
+.instructions {
+  position: absolute;
+  bottom: 10%;
+  left: 50%;
+  max-width: 1200px;
+  width: 90%;
+  font-size: 28px;
+  transform: translate(-50%, -50%);
+  font-family: "Shifty Notes", sans-serif;
+  color: #e6dede;
+  text-align: center;
+}
+
+.mobile-instructions {
+  display: none;
+}
+
+
 /* Modal */
 .modal {
     z-index: 999;
