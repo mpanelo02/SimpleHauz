@@ -3,59 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- <link rel="icon" type="image/jpg" href="UFL.jpg"> -->
     <link rel="icon" type="image/jpg" href="Mario.gif">
-    <title>Simple House</title>
+    <title>Virtual Reality Experience</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap" rel="stylesheet"> -->
     <link href="https://fonts.googleapis.com/css2?family=Playwrite+DK+Loopet:wght@100..400&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="./style.css">
 
-    <!-- <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script> -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <!-- <script src="https://cdn.sheetjs.com/xlsx-0.19.3/package/dist/xlsx.full.min.js"></script> -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 
 </head>
-<!-- <body> -->
 <body class="light-theme">
 
-    <div id="experience">
-        <canvas id="experience-canvas"></canvas>
-    </div>
-    
-    <!-- Loading Screen -->
-    <div class="loading-screen" id="loadingScreen">
-        <button class="enter-button">Tervetuloa</button>
-    </div>
-
-    <!-- Button Sound Effect -->
-    <audio id="buttonSound" preload="auto">
-        <source src="HouseButton.mp3" type="audio/mpeg">
-    </audio>
-    
-    <!-- Modal -->
-    <div class="modal hidden">
-        <div class="modal-wrapper">
-            <div class="modal-header">
-                <h1 class="modal-title">Dashboard</h1>
-                <!-- <img id="modal-image" class="hidden" style="max-width: 100%; margin-top: 10px;" /> -->
-                <button class="modal-exit-button">Exit</button>
-            </div>
-            <div class="modal-content">
-                <div class="modal-content-wrapper">
-                    <a href="#" 
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="modal-visit-button hidden">View Link</a>
-                    <div class="modal-project-description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum magnam unde deserunt quaerat minus repellat natus nobis qui tenetur ducimus fuga quo corrupti nam similique sint at suscipit, assumenda ipsa?</div>
-                </div>
-            </div>
+  <div class="experience">
+    <canvas id="experience-canvas"></canvas>
+  </div>
+  <div class="modal hidden">
+    <div class="modal-wrapper">
+      <div class="modal-header">
+        <h1 class="modal-title">Project One</h1>
+        <button class="modal-exit-button">Exit</button>
+      </div>
+      <div class="modal-content">
+        <div class="modal-content-wrapper">
+          <a href="#" 
+          target="_blank"
+          rel="noopener noreferrer"
+          class="modal-project-visit-button hidden">View Project</a>
+          <div class="modal-project-description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis quidem voluptas provident tempore dignissimos repellendus, dolor doloribus! Sapiente odio laudantium aut reprehenderit dignissimos, accusamus nam, ipsa mollitia ex non iusto.
+          Natus facilis obcaecati vitae nobis voluptatum facere? Facere impedit dolor consequuntur commodi, et optio unde sequi aut maxime alias incidunt libero voluptates tenetur quisquam eos cum voluptatibus dolore rerum aspernatur?
+          Ab aperiam blanditiis ratione minus, eveniet quos tempora quae, facilis est nesciunt expedita id veritatis ipsa repellendus doloribus voluptatibus! Deleniti veritatis earum obcaecati cumque voluptates laborum fugiat molestiae facere modi!
+          Modi, in consectetur? Non, eum ut ipsum, saepe optio praesentium, animi quas quaerat voluptates unde qui ea atque minus. Accusamus repudiandae sed mollitia fuga, nemo nulla assumenda similique officia quasi?</div>
         </div>
+      </div>
     </div>
-
-
-
+  </div>
     <script type="importmap">
         {
           "imports": {
@@ -63,25 +46,14 @@
             "three/addons/": "https://cdn.jsdelivr.net/npm/three@v0.149.0/examples/jsm/"
           }
         }
-        
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/gsap.min.js"></script>
-        
+        </script>
+        <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/gsap.min.js"></script>
+    
     <script type="module" src="./main.js"></script>
-        
-    <!-- Place these first so the elements are available -->
-    <div id="mainContent" style="display: none;">
-        <!-- Date -->
 
-        <div class="weather-card">
-            <div class="location">Vantaa, Finland</div>
-            <div class="date" id="current-date">Loading...</div>
-            
-            <div id="weather-content">
-                <div class="loading">Loading weather data...</div>
-            </div>
-        </div>
-        
+    <!-- UI Content -->
+    <div id="mainContent">
+      
             <!-- Theme Toggle -->
         <div class="theme-mode-toggle-button">
             <svg
@@ -160,17 +132,16 @@
             </svg>
         </div>
 
-        <button id="showSwitchButton" class="showSwitchPin">💡👀</button>
-        <button id="livingRoomButton" class="livingRoomPin hidden">LR</button>
-        <button id="hallwayButton" class="hallwayPin hidden">HW</button>
-        <button id="stairButton" class="stairPin hidden">ST</button>
-        <button id="bedroom1Button" class="bedroom1Pin hidden">BR1</button>
-        <button id="bedroom2Button" class="bedroom2Pin hidden">BR2</button>
-        <button id="masterBedRoomButton" class="masterBedRoomPin hidden">MBR</button>
-        <button id="secondFloor1Button" class="secondFloor1Pin hidden">SF1</button>
-        <button id="secondFloor2Button" class="secondFloor2Pin hidden">SF2</button>
-        <button id="secondFloor3Button" class="secondFloor3Pin hidden">SF3</button>
+        <div class="weather-card">
+            <div class="location">Vantaa, Finland</div>
+            <div class="date" id="current-date">Loading...</div>
+            
+            <div id="weather-content">
+                <div class="loading">Loading weather data...</div>
+            </div>
+        </div>
 
+        <button id="firstPerCamButton" class="firstPerCamPin">👀</button>
 
         <button id="arrowUpToggleButton" class="arrowUpPin">
             <svg width="30" height="30" viewBox="0 0 24 24" fill="white">
@@ -186,7 +157,5 @@
         <button id="threeDToggleButton" class="threeDPin">3D</button>
 
     </div>
-
-  
 </body>
 </html>
