@@ -17,7 +17,13 @@ const sizes = {
 };
 
 let modelsLoaded = 0;
-const totalModelsToLoad = 3; // House1F, HouseRoof, House2F
+const totalModelsToLoad = 9; // House1F, HouseRoof, House2F
+let bed1Model = null;
+let bed2Model = null;
+let bedMasterModel = null;
+let sohvaLModel = null;
+let sohvaRModel = null;
+let sohvaMModel = null;
 let houseRoofModel = null;
 let house2FModel = null;
 let isRoofHidden = false;
@@ -67,7 +73,7 @@ renderer.toneMapping = THREE.ACESFilmicToneMapping;
 const modalContent = {
   "ClickMe":{
     title: "Control Keys",
-    content: " w = move forward <br> s = move backward <br> a = move left <br> d = move right <br> r = respawn <br> left-click = for direction",
+    content: "<br> w = move forward <br> s = move backward <br> a = move left <br> d = move right <br> r = respawn <br> left-click = for direction <br><br> You can turn on/off lights by clicking the switches around the house! <br><br> Enjoy exploring! ~ Mark",
     // link: "https://www.linkedin.com/in/mark-johnson-panelo-82030a325/",
   },
 }
@@ -283,6 +289,78 @@ loader.load( "./House1F.glb", function ( glb ) {
 } );
 
 
+loader.load('./Bed1.glb', function(gltf) {
+  bed1Model = gltf.scene;
+  bed1Model.traverse((child) => {
+    if (child.isMesh) {
+      child.castShadow = true;
+      child.receiveShadow = true;
+    }
+  });
+  scene.add(bed1Model);
+  modelsLoaded++;
+  checkAllModelsLoaded();
+});
+loader.load('./Bed2.glb', function(gltf) {
+  bed2Model = gltf.scene;
+  bed2Model.traverse((child) => {
+    if (child.isMesh) {
+      child.castShadow = true;
+      child.receiveShadow = true;
+    }
+  });
+  scene.add(bed2Model);
+  modelsLoaded++;
+  checkAllModelsLoaded();
+});
+loader.load('./BedMaster.glb', function(gltf) {
+  bedMasterModel = gltf.scene;
+  bedMasterModel.traverse((child) => {
+    if (child.isMesh) {
+      child.castShadow = true;
+      child.receiveShadow = true;
+    }
+  });
+  scene.add(bedMasterModel);
+  modelsLoaded++;
+  checkAllModelsLoaded();
+});
+loader.load('./SohvaL.glb', function(gltf) {
+  sohvaLModel = gltf.scene;
+  sohvaLModel.traverse((child) => {
+    if (child.isMesh) {
+      child.castShadow = true;
+      child.receiveShadow = true;
+    }
+  });
+  scene.add(sohvaLModel);
+  modelsLoaded++;
+  checkAllModelsLoaded();
+});
+loader.load('./SohvaR.glb', function(gltf) {
+  sohvaRModel = gltf.scene;
+  sohvaRModel.traverse((child) => {
+    if (child.isMesh) {
+      child.castShadow = true;
+      child.receiveShadow = true;
+    }
+  });
+  scene.add(sohvaRModel);
+  modelsLoaded++;
+  checkAllModelsLoaded();
+});
+loader.load('./SohvaM.glb', function(gltf) {
+  sohvaMModel = gltf.scene;
+  sohvaMModel.traverse((child) => {
+    if (child.isMesh) {
+      child.castShadow = true;
+      child.receiveShadow = true;
+    }
+  });
+  scene.add(sohvaMModel);
+  modelsLoaded++;
+  checkAllModelsLoaded();
+});
 loader.load('./HouseRoof.glb', function(gltf) {
   houseRoofModel = gltf.scene;
   houseRoofModel.traverse((child) => {
