@@ -6,7 +6,7 @@
 }
 
 :root {
-  --pastel-pink: lightgreen;
+  --pastel-pink: #8f44a2;
   --pastel-blue: #717dad;
 }
 
@@ -83,7 +83,7 @@
   left: 50%;
   max-width: 1200px;
   width: 90%;
-  font-size: 28px;
+  font-size: 24px;
   transform: translate(-50%, -50%);
   font-family: "Shifty Notes", sans-serif;
   color: #e6dede;
@@ -265,7 +265,7 @@
     font-size: 20px;
     font-weight: 900;
     color: white;
-    background-color: lightgreen;
+    background-color: #8f44a2;
     border: 3px solid white;
     /* padding: 10px 10px; */
     /* border-radius: 30px; */

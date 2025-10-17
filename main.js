@@ -778,7 +778,7 @@ function toggleViewMode() {
         // Switch to 3D mode
         // camera.position.set(-15, 10, 30);
         camera.lookAt(0, 7, 0);
-        threeDToggleButton.style.backgroundColor = 'lightgreen';
+        threeDToggleButton.style.backgroundColor = '#8f44a2';
     } else {
         // Switch to 2D mode (top-down view)
         // camera.position.set(0, 30, 0);
@@ -924,7 +924,7 @@ function toggleFirstPersonCamera() {
 
         // Restore original camera state
         disableFirstPersonCamera();
-        firstPerCamButton.style.backgroundColor = 'lightgreen';
+        firstPerCamButton.style.backgroundColor = '#8f44a2';
         // Remove mouse event listeners
         canvas.removeEventListener('mousedown', onMouseDown);
         document.removeEventListener('mousemove', onMouseMove);
