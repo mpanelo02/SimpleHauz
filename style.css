@@ -5,7 +5,7 @@
     font-family: "Pixelify Sans", sans-serif;
 }
 
-:root {
+/* :root {
   --pastel-pink: #8f44a2;
   --pastel-blue: #717dad;
 }
@@ -16,7 +16,7 @@
 
 .dark-theme {
   --default-bg: var(--pastel-blue);
-}
+} */
 
 /* Experience */
 #experience {
@@ -104,7 +104,7 @@
     transform: translate(-50%, -50%);
     width: 100%;
     max-width: 400px;
-    background-color: #c59fc5;
+    background-color: #c97cc9;
     border: 2px solid #fff;
     color: #fff;
     border-radius: 6px;
@@ -132,21 +132,21 @@
   border: 3px solid white;
   border-radius: 6px;
   padding: 8px 10px;
-  background-color: #c59fc5;
+  background-color: #c97cc9;
   color: white;
   font-weight: bold;
   cursor: pointer;
 }
 .modal-exit-button:hover {
     background-color: white;
-    color: #c59fc5;
+    color: #c97cc9;
     border: 3px solid white;
 }
 
 /* ----- Weather Style ----- */
 .weather-card {
     position: fixed; /* Add this */
-    top: 50px; /* Position from top */
+    top: 70px; /* Position from top */
     left: 20px; /* Position from left */
     background-color: transparent;
     border-radius: 20px;
@@ -171,7 +171,7 @@
 }
         
 .date {
-    color: #636e72;
+    color: #3b4244;
     margin-bottom: 30px;
     font-size: 14px;
 }
@@ -213,7 +213,7 @@
         
 .detail-label {
     font-size: 14px;
-    color: #636e72;
+    color: #3b4244;
 }
         
 .detail-value {
@@ -241,13 +241,12 @@
 }
 
 /* Toggle Theme Button */
-.theme-mode-toggle-button {
+/* .theme-mode-toggle-button {
   z-index: 500;
   position: absolute;
   top: 20px;
   right: 20px;
   background: var(--default-bg);
-  /* background-color: lightgreen; */
   height: 48px;
   width: 48px;
   display: flex;
@@ -258,7 +257,7 @@
   cursor: pointer;
   transition: background 0.4s ease-in;
   transition-delay: 0.1s;
-}
+} */
 
 .firstPerCamPin, .arrowUpPin, .arrowDownPin, .threeDPin {
     position: fixed;
@@ -279,6 +278,7 @@
 .firstPerCamPin:hover, .arrowUpPin:hover, .arrowDownPin:hover, .threeDPin:hover {
     background-color: #717dad;
     color: white;
+    /* transform: scaleX(1.2); */
 }
 
 .firstPerCamPin {
