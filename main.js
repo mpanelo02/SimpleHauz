@@ -1810,7 +1810,7 @@ function displayWeather(data) {
         });
 
         gsap.to(light, {
-            intensity: 5, // Your original ambient light intensity
+            intensity: 3.5, // Your original ambient light intensity
             duration: 1,
             ease: "power2.inOut",
         });
