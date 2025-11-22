@@ -51,11 +51,11 @@ const Move_Speed = 3;
 
 let FoxBotModel = null;
 let foxBotBaseY = null;
-let TankHeadModel = null;
-let tankHeadSwingAngle = 0;
-let tankHeadSwingDirection = 1;
-const tankHeadSwingSpeed = 1;
-const tankHeadMaxSwingAngle = 30;
+// let TankHeadModel = null;
+// let tankHeadSwingAngle = 0;
+// let tankHeadSwingDirection = 1;
+// const tankHeadSwingSpeed = 1;
+// const tankHeadMaxSwingAngle = 30;
 
 let foxbot = {
   instance: null,
@@ -386,9 +386,9 @@ loader.load( "./House1F.glb", function ( glb ) {
       FoxBotModel = child;
       foxBotBaseY = FoxBotModel.position.y;
     }
-    if (child.name === "TankHead") {
-      TankHeadModel = child;
-    }
+    // if (child.name === "TankHead") {
+    //   TankHeadModel = child;
+    // }
     if (child.name === "TvScreen") {    
       child.material = new THREE.MeshBasicMaterial({ map: videoTexture });
       videoMesh = child;
@@ -1406,17 +1406,17 @@ function animate() {
     }
 
     // Tank Head swing animation
-    if (TankHeadModel && TankHeadModel.visible) {
-        const deltaTime = 0.2;
-        tankHeadSwingAngle += tankHeadSwingDirection * tankHeadSwingSpeed * deltaTime;
+    // if (TankHeadModel && TankHeadModel.visible) {
+    //     const deltaTime = 0.2;
+    //     tankHeadSwingAngle += tankHeadSwingDirection * tankHeadSwingSpeed * deltaTime;
         
-        if (tankHeadSwingAngle >= tankHeadMaxSwingAngle || tankHeadSwingAngle <= -tankHeadMaxSwingAngle) {
-            tankHeadSwingDirection *= -1;
-            tankHeadSwingAngle = Math.max(-tankHeadMaxSwingAngle, Math.min(tankHeadMaxSwingAngle, tankHeadSwingAngle));
-        }
+    //     if (tankHeadSwingAngle >= tankHeadMaxSwingAngle || tankHeadSwingAngle <= -tankHeadMaxSwingAngle) {
+    //         tankHeadSwingDirection *= -1;
+    //         tankHeadSwingAngle = Math.max(-tankHeadMaxSwingAngle, Math.min(tankHeadMaxSwingAngle, tankHeadSwingAngle));
+    //     }
         
-        TankHeadModel.rotation.y = THREE.MathUtils.degToRad(tankHeadSwingAngle);
-    }
+    //     TankHeadModel.rotation.y = THREE.MathUtils.degToRad(tankHeadSwingAngle);
+    // }
 
   
 
