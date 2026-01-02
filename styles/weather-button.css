@@ -1,7 +1,7 @@
 /* ----- Weather Style ----- */
 .weather-card {
     position: fixed; /* Add this */
-    top: 70px; /* Position from top */
+    top: 30px; /* Position from top */
     left: 20px; /* Position from left */
     background-color: transparent;
     /* border-radius: 20px; */
@@ -135,7 +135,7 @@
     .weather-card {
         max-width: 70px; /* Slightly smaller for corner placement */
         padding: 5px;
-        top: 30px;
+        top: 20px;
         left: 5px;
         /* align-items: center; */
     }
