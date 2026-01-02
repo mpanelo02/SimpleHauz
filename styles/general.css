@@ -1,0 +1,145 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: "Pixelify Sans", sans-serif;
+}
+
+/* Experience */
+#experience {
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    top: 0
+    /* left: 0;
+    overflow: hidden; */
+}
+
+#experience-canvas {
+    position: fixed;
+    height: 100%;
+    width: 100%;
+}
+
+/* Utilities */
+.hidden {
+    display: none;
+}
+
+/****** Loading Screen ******/
+.loading-screen {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 108vw;
+  height: 108vh;
+  margin-left: -54vw;
+  margin-top: -54vh;
+  overflow: hidden;
+  z-index: 999999;
+
+  background-color: #8f44a2;
+
+  transform: perspective(1000px);
+  border-radius: 48px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.loading-screen-button {
+  font-family: "Motley Forces", sans-serif;
+  background-color: transparent;
+  padding: 10px 40px;
+  outline: none;
+  color: #e6dede;
+  /* border-radius: 1.2rem; */
+  border: none;
+  font-size: 42px;
+  cursor: default;
+}
+
+.instructions {
+  position: absolute;
+  bottom: 10%;
+  left: 50%;
+  max-width: 1200px;
+  width: 90%;
+  font-size: 24px;
+  transform: translate(-50%, -50%);
+  font-family: "Shifty Notes", sans-serif;
+  color: #e6dede;
+  text-align: center;
+}
+
+.mobile-instructions {
+  display: none;
+}
+
+/* Modal */
+.modal {
+    z-index: 999;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    max-width: 400px;
+    background-color: #c97cc9;
+    border: 2px solid #fff;
+    color: #fff;
+    border-radius: 6px;
+}
+
+.modal-wrapper {
+    padding: 12px;
+}
+.modal-content {
+    font-size: 20px;
+}
+
+.modal-header {
+    width: 100%;
+    display: flex;
+    font-size: 20px;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.modal-exit-button {
+  border: 3px solid white;
+  border-radius: 6px;
+  padding: 8px 10px;
+  background-color: #c97cc9;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+.modal-exit-button:hover {
+    background-color: white;
+    color: #c97cc9;
+    border: 3px solid white;
+}
+
+@media (max-width: 600px) {
+    .instructions {
+        font-size: 18px;
+    }
+    .modal {
+        max-width: 270px;
+
+    }
+
+    .modal-header {
+        font-size: 14px;
+    }
+
+    .modal-content {
+        font-size: 16px;
+    } 
+    .modal-exit-button {
+        padding: 2px 4px;
+    }
+
+}
