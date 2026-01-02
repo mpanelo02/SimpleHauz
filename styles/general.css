@@ -125,6 +125,7 @@
 @media (max-width: 600px) {
     .instructions {
         font-size: 18px;
+        padding: 15px;
     }
     .modal {
         max-width: 270px;
