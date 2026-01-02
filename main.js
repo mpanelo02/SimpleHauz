@@ -51,11 +51,6 @@ const Move_Speed = 3;
 
 let FoxBotModel = null;
 let foxBotBaseY = null;
-// let TankHeadModel = null;
-// let tankHeadSwingAngle = 0;
-// let tankHeadSwingDirection = 1;
-// const tankHeadSwingSpeed = 1;
-// const tankHeadMaxSwingAngle = 30;
 
 let foxbot = {
   instance: null,
@@ -1379,12 +1374,6 @@ function animate() {
         controls.enableDamping = true;
         controls.dampingFactor = 0.05;
 
-        // if (controls.target.x > 5) controls.target.x = 5;
-        // if (controls.target.x < -4.5) controls.target.x = -4.5;
-        // if (controls.target.z > 5) controls.target.z = 5;
-        // if (controls.target.z < -4.5) controls.target.z = -4.5;
-        // if (controls.target.y > 8) controls.target.y = 8;
-        // if (controls.target.y < 2) controls.target.y = 2;
         if (controls.target.x > 0) controls.target.x = 0;
         if (controls.target.x < 0) controls.target.x = 0;
         if (controls.target.z > 0) controls.target.z = 0;
@@ -1404,19 +1393,6 @@ function animate() {
         foxBotBaseY = FoxBotModel.position.y;
         FoxBotModel.position.y = foxBotBaseY + Math.abs(Math.sin(time * bounceSpeed)) * bounceHeight;
     }
-
-    // Tank Head swing animation
-    // if (TankHeadModel && TankHeadModel.visible) {
-    //     const deltaTime = 0.2;
-    //     tankHeadSwingAngle += tankHeadSwingDirection * tankHeadSwingSpeed * deltaTime;
-        
-    //     if (tankHeadSwingAngle >= tankHeadMaxSwingAngle || tankHeadSwingAngle <= -tankHeadMaxSwingAngle) {
-    //         tankHeadSwingDirection *= -1;
-    //         tankHeadSwingAngle = Math.max(-tankHeadMaxSwingAngle, Math.min(tankHeadMaxSwingAngle, tankHeadSwingAngle));
-    //     }
-        
-    //     TankHeadModel.rotation.y = THREE.MathUtils.degToRad(tankHeadSwingAngle);
-    // }
 
   
 
@@ -1878,65 +1854,3 @@ function displayError(message) {
 // Fetch weather data when page loads
 getWeather();
 
-// // ------ Theme codes ------
-// const themeToggleButton = document.querySelector(".theme-mode-toggle-button");
-// const firstIcon = document.querySelector(".first-icon");
-// const secondIcon = document.querySelector(".second-icon");
-
-// let isBright = true;
-
-// // Toggle Theme Function
-// function toggleTheme() {
-//   isBright = !isBright;
-
-//   const isDarkTheme = document.body.classList.contains("dark-theme");
-//   document.body.classList.toggle("dark-theme");
-//   document.body.classList.toggle("light-theme");
-
-//   if (firstIcon.style.display === "none") {
-//     firstIcon.style.display = "block";
-//     secondIcon.style.display = "none";
-//   } else {
-//     firstIcon.style.display = "none";
-//     secondIcon.style.display = "block";
-//   }
-
-//   gsap.to(light.color, {
-//     r: isDarkTheme ? 1.0 : 0.25,
-//     g: isDarkTheme ? 1.0 : 0.31,
-//     // b: isDarkTheme ? 1.0 : 0.78,
-//     b: isDarkTheme ? 1.0 : 0.48,
-//     duration: 1,
-//     ease: "power2.inOut",
-//   });
-
-//   gsap.to(light, {
-//     intensity: isDarkTheme ? 0.8 : 0.9,
-//     duration: 1,
-//     ease: "power2.inOut",
-//   });
-
-//   gsap.to(sun, {
-//     intensity: isDarkTheme ? 1 : 0.8,
-//     duration: 1,
-//     ease: "power2.inOut",
-//   });
-
-//   gsap.to(sun.color, {
-//     r: isDarkTheme ? 1.0 : 0.25,
-//     g: isDarkTheme ? 1.0 : 0.21,
-//     // b: isDarkTheme ? 1.0 : 0.88,
-//     b: isDarkTheme ? 1.0 : 0.28,
-//     duration: 1,
-//     ease: "power2.inOut",
-//   });
-
-//   renderer.setClearColor(isBright ? 0xeeeeee : 0x111111, 1);
-
-// }
-
-// // Theme toggle button
-// themeToggleButton.addEventListener("click", function() {
-//     // playButtonSound();
-//     toggleTheme();
-// });
