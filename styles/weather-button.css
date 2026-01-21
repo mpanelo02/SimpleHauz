@@ -17,12 +17,13 @@
 .location {
     font-size: 20px;
     font-weight: 600;
-    color: #2d3436;
+    /* color: #2d3436; */
+    color: white;
     margin-bottom: 5px;
 }
         
 .date {
-    color: #3b4244;
+    color: #636768;
     margin-bottom: 30px;
     font-size: 14px;
 }
@@ -37,7 +38,7 @@
 .temperature {
     font-size: 48px;
     font-weight: 700;
-    color: #2d3436;
+    color: #636768;
     margin-bottom: 5px;
 }
         
@@ -64,13 +65,14 @@
         
 .detail-label {
     font-size: 14px;
-    color: #3b4244;
+    /* color: #3b4244; */
+    color: white;
 }
         
 .detail-value {
     font-size: 18px;
     font-weight: 600;
-    color: #2d3436;
+    color: #636768;
     margin-top: 5px;
 }
         
@@ -108,7 +110,7 @@
     font-size: 20px;
     font-weight: 900;
     color: white;
-    background-color: #8f44a2;
+    background-color: #2a4998;
     border: 3px solid white;
     margin-bottom: 10px;
     font-family: Arial, sans-serif;

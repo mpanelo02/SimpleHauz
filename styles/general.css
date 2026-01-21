@@ -37,7 +37,7 @@
   margin-top: -54vh;
   overflow: hidden;
   z-index: 999999;
-  background-color: #8f44a2;
+  background-color: #2a4998;
   transform: perspective(1000px);
   border-radius: 48px;
   display: flex;
@@ -84,7 +84,7 @@
     transform: translate(-50%, -50%);
     width: 100%;
     max-width: 400px;
-    background-color: #c97cc9;
+    background-color: #2a4998;
     border: 2px solid #fff;
     color: #fff;
     border-radius: 6px;
@@ -109,14 +109,14 @@
   border: 3px solid white;
   border-radius: 6px;
   padding: 8px 10px;
-  background-color: #c97cc9;
+  background-color: #2a4998;
   color: white;
   font-weight: bold;
   cursor: pointer;
 }
 .modal-exit-button:hover {
     background-color: white;
-    color: #c97cc9;
+    color: #2a4998;
     border: 3px solid white;
 }
 
