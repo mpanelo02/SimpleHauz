@@ -7,8 +7,10 @@ import { RectAreaLightHelper } from 'three/addons/helpers/RectAreaLightHelper.js
 
 const scene = new THREE.Scene();
 // scene.background = new THREE.Color(0xd8bfd8); // Light Purple
-scene.background = new THREE.Color(0xc59fc5); // Light Purple
+// scene.background = new THREE.Color(0xc59fc5); // Light Purple
 // scene.background = new THREE.Color(0x0f0f3d); // Dark Purple
+scene.background = new THREE.Color(0x0b1c3d); // Blue
+// scene.background = new THREE.Color(0x305080); // Blue
 const raycaster = new THREE.Raycaster();
 // const rainRaycaster = new THREE.Raycaster();
 const pointer = new THREE.Vector2();
@@ -236,7 +238,7 @@ manager.onLoad = function () {
   setTimeout(() => {
     if (loadingScreenButton) {
       loadingScreenButton.style.border = "8px solid #e6dede";
-      loadingScreenButton.style.background = "#8f44a2";
+      loadingScreenButton.style.background = "#2a4998";
       loadingScreenButton.style.color = "#e6dede";
       loadingScreenButton.style.boxShadow = "rgba(0, 0, 0, 0.24) 0px 3px 8px";
       loadingScreenButton.textContent = " Enter! ";
@@ -252,12 +254,12 @@ manager.onLoad = function () {
 
     loadingScreenButton.style.cursor = "default";
     loadingScreenButton.style.border = "8px solid #e6dede";
-    loadingScreenButton.style.background = "#8f44a2";
+    loadingScreenButton.style.background = "#2a4998";
     loadingScreenButton.style.color = "#e6dede";
     loadingScreenButton.style.boxShadow = "none";
     loadingScreenButton.textContent = "~ Terve ~";
     if (loadingScreen) {
-      loadingScreen.style.background = "#8f44a2";
+      loadingScreen.style.background = "#2a4998";
     }
     isDisabled = true;
 
@@ -1589,13 +1591,13 @@ function displayWeather(data) {
         });
 
         // Change scene background to darker color for rainy mood
-        gsap.to(scene.background, {
-            r: 0.59,  // 0xc59fc5 converted to RGB: 197/255 = 0.77, 159/255 = 0.62, 197/255 = 0.77
-            g: 0.48,  // Darken these values for rainy mood
-            b: 0.59,
-            duration: 1,
-            ease: "power2.inOut",
-        });
+        // gsap.to(scene.background, {
+        //     r: 0.59,  // 0xc59fc5 converted to RGB: 197/255 = 0.77, 159/255 = 0.62, 197/255 = 0.77
+        //     g: 0.48,  // Darken these values for rainy mood
+        //     b: 0.59,
+        //     duration: 1,
+        //     ease: "power2.inOut",
+        // });
 
       } else if (isOvercast) {
         // Show Clouds only
@@ -1644,13 +1646,13 @@ function displayWeather(data) {
         });
 
         // Change scene background to darker color for overcast mood
-        gsap.to(scene.background, {
-            r: 0.59,  // 0xc59fc5 converted to RGB: 197/255 = 0.77, 159/255 = 0.62, 197/255 = 0.77
-            g: 0.48,  // Darken these values for overcast mood
-            b: 0.59,
-            duration: 1,
-            ease: "power2.inOut",
-        });
+        // gsap.to(scene.background, {
+        //     r: 0.59,  // 0xc59fc5 converted to RGB: 197/255 = 0.77, 159/255 = 0.62, 197/255 = 0.77
+        //     g: 0.48,  // Darken these values for overcast mood
+        //     b: 0.59,
+        //     duration: 1,
+        //     ease: "power2.inOut",
+        // });
 
       } else if (isThunder) {
         // Show thunder
@@ -1699,13 +1701,13 @@ function displayWeather(data) {
         });
 
         // Change scene background to darker color for thunder mood
-        gsap.to(scene.background, {
-            r: 0.59,  // 0xc59fc5 converted to RGB: 197/255 = 0.77, 159/255 = 0.62, 197/255 = 0.77
-            g: 0.48,  // Darken these values for thunder mood
-            b: 0.59,
-            duration: 1,
-            ease: "power2.inOut",
-        });
+        // gsap.to(scene.background, {
+        //     r: 0.59,  // 0xc59fc5 converted to RGB: 197/255 = 0.77, 159/255 = 0.62, 197/255 = 0.77
+        //     g: 0.48,  // Darken these values for thunder mood
+        //     b: 0.59,
+        //     duration: 1,
+        //     ease: "power2.inOut",
+        // });
 
       } else if (isPartlyCloudy) {
         // Show partly cloudy
@@ -1753,13 +1755,13 @@ function displayWeather(data) {
         });
 
         // Restore original scene background
-        gsap.to(scene.background, {
-            r: 0.77,  // Original 0xc59fc5
-            g: 0.62,
-            b: 0.77,
-            duration: 1,
-            ease: "power2.inOut",
-        });
+        // gsap.to(scene.background, {
+        //     r: 0.77,  // Original 0xc59fc5
+        //     g: 0.62,
+        //     b: 0.77,
+        //     duration: 1,
+        //     ease: "power2.inOut",
+        // });
 
     } else {
         // Hide weather particles
@@ -1806,13 +1808,13 @@ function displayWeather(data) {
         });
 
         // Restore original scene background
-        gsap.to(scene.background, {
-            r: 0.77,  // Original 0xc59fc5
-            g: 0.62,
-            b: 0.77,
-            duration: 1,
-            ease: "power2.inOut",
-        });
+        // gsap.to(scene.background, {
+        //     r: 0.77,  // Original 0xc59fc5
+        //     g: 0.62,
+        //     b: 0.77,
+        //     duration: 1,
+        //     ease: "power2.inOut",
+        // });
     }
             
     // Create the weather display HTML
