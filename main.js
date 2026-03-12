@@ -7,12 +7,9 @@ import { RectAreaLightHelper } from 'three/addons/helpers/RectAreaLightHelper.js
 
 const scene = new THREE.Scene();
 // scene.background = new THREE.Color(0xd8bfd8); // Light Purple
-// scene.background = new THREE.Color(0xc59fc5); // Light Purple
+scene.background = new THREE.Color(0xc59fc5); // Light Purple
 // scene.background = new THREE.Color(0x0f0f3d); // Dark Purple
-scene.background = new THREE.Color(0x0b1c3d); // Blue
-// scene.background = new THREE.Color(0x305080); // Blue
 const raycaster = new THREE.Raycaster();
-// const rainRaycaster = new THREE.Raycaster();
 const pointer = new THREE.Vector2();
 const canvas = document.getElementById("experience-canvas");
 const sizes = {
@@ -33,18 +30,10 @@ let house2FModel = null;
 let isRoofHidden = false;
 let isSecondFloorHidden = false;
 
-// Weather Variables--------
-let cloud1 = null;
-let cloud2 = null;
-let flash, rain, rainGeo, rainCount = 5000;
-let snow, snowGeo, snowCount = 5000;
-
-// Video Variables---------
 let videoMesh = null;
 let video;
 let tvScreen = null;
 
-//  Foxbot Capsule--------
 const Gravity = 30;
 const Capsule_Radius =  .3;
 const Capsule_Height = 1;
@@ -53,6 +42,11 @@ const Move_Speed = 3;
 
 let FoxBotModel = null;
 let foxBotBaseY = null;
+let TankHeadModel = null;
+let tankHeadSwingAngle = 0;
+let tankHeadSwingDirection = 1;
+const tankHeadSwingSpeed = 1;
+const tankHeadMaxSwingAngle = 30;
 
 let foxbot = {
   instance: null,
@@ -81,86 +75,6 @@ renderer.shadowMap.enabled = true;
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
 // renderer.toneMappingExposure = 1.5;
 
-// Flash or Lightning --------
-flash = new THREE.PointLight(0x062d89, 30, 500, 1.7);
-flash.position.set(14, 25, 24);
-flash.visible = false; // Start hidden
-scene.add(flash);
-
-// Rain Particles Effect-------
-// Fixed: Using BufferGeometry instead of deprecated Geometry
-rainGeo = new THREE.BufferGeometry();
-const positions = [];
-const velocities = [];
-            
-for(let i = 0; i < rainCount; i++) {
-    // Position
-    positions.push(
-        Math.random() * 40 - 20,
-        Math.random() * 500 - 25,
-        Math.random() * 40 - 20
-    );
-    // Velocity
-    velocities.push(0);
-}
-            
-rainGeo.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
-rainGeo.userData.velocities = velocities; // Store velocities separately
-
-let rainMaterial = new THREE.PointsMaterial({
-    color: 0xaaaaaa,
-    size: 0.5,
-    transparent: true
-});
-rain = new THREE.Points(rainGeo, rainMaterial);
-rain.visible = false; // Start hidden
-scene.add(rain);
-
-// Snow Particles Effect-------
-// Fixed: Using BufferGeometry instead of deprecated Geometry
-snowGeo = new THREE.BufferGeometry();
-const snowPositions = [];
-const snowVelocities = [];
-
-for(let i = 0; i < snowCount; i++) {
-    // Position
-    snowPositions.push(
-        Math.random() * 40 - 20,
-        Math.random() * 500 - 25,
-        Math.random() * 40 - 20
-    );
-    // Velocity
-    snowVelocities.push(0);
-}
-
-snowGeo.setAttribute('position', new THREE.Float32BufferAttribute(snowPositions, 3));
-snowGeo.userData.velocities = snowVelocities; // Store velocities separately
-
-let snowMaterial = new THREE.PointsMaterial({
-    color: 0xffffff,
-    size: 0.5,
-    // transparent: true
-});
-snow = new THREE.Points(snowGeo, snowMaterial);
-snow.visible = false; // Start hidden
-scene.add(snow);
-
-
-// function hideWeatherEffects() {
-//     // Hide flash (lightning)
-//     if (flash) {
-//         flash.visible = false;
-//     }
-    
-//     // Hide rain particles
-//     if (rain) {
-//         rain.visible = false;
-//     }
-// }
-
-// hideWeatherEffects();
-
-// Modal Content----
 const modalContent = {
   "ClickMe":{
     title: "Control Keys",
@@ -238,7 +152,7 @@ manager.onLoad = function () {
   setTimeout(() => {
     if (loadingScreenButton) {
       loadingScreenButton.style.border = "8px solid #e6dede";
-      loadingScreenButton.style.background = "#2a4998";
+      loadingScreenButton.style.background = "#8f44a2";
       loadingScreenButton.style.color = "#e6dede";
       loadingScreenButton.style.boxShadow = "rgba(0, 0, 0, 0.24) 0px 3px 8px";
       loadingScreenButton.textContent = " Enter! ";
@@ -254,12 +168,12 @@ manager.onLoad = function () {
 
     loadingScreenButton.style.cursor = "default";
     loadingScreenButton.style.border = "8px solid #e6dede";
-    loadingScreenButton.style.background = "#2a4998";
+    loadingScreenButton.style.background = "#8f44a2";
     loadingScreenButton.style.color = "#e6dede";
     loadingScreenButton.style.boxShadow = "none";
     loadingScreenButton.textContent = "~ Terve ~";
     if (loadingScreen) {
-      loadingScreen.style.background = "#2a4998";
+      loadingScreen.style.background = "#8f44a2";
     }
     isDisabled = true;
 
@@ -383,9 +297,9 @@ loader.load( "./House1F.glb", function ( glb ) {
       FoxBotModel = child;
       foxBotBaseY = FoxBotModel.position.y;
     }
-    // if (child.name === "TankHead") {
-    //   TankHeadModel = child;
-    // }
+    if (child.name === "TankHead") {
+      TankHeadModel = child;
+    }
     if (child.name === "TvScreen") {    
       child.material = new THREE.MeshBasicMaterial({ map: videoTexture });
       videoMesh = child;
@@ -393,14 +307,6 @@ loader.load( "./House1F.glb", function ( glb ) {
     if(child.name === "Collider1"){
       colliderOctree.fromGraphNode(child);
       child.visible = false;
-    }
-    if (child.name === "Cloud1") {
-        cloud1 = child;
-        cloud1.visible = false;
-    }
-    if (child.name === "Cloud2") {
-        cloud2 = child;
-        cloud2.visible = false;
     }
   } );
 
@@ -493,7 +399,6 @@ loader.load('./HouseRoof.glb', function(gltf) {
       child.castShadow = true;
       child.receiveShadow = true;
     }
-
   });
   scene.add(houseRoofModel);
   modelsLoaded++;
@@ -530,7 +435,7 @@ sun.shadow.camera.bottom = -80;
 sun.shadow.normalBias = 0.2;
 scene.add( sun );
 
-const light = new THREE.AmbientLight( 0x404040, 4 ); // soft white light
+const light = new THREE.AmbientLight( 0x404040, 5 ); // soft white light
 scene.add( light );
 
 
@@ -1060,8 +965,6 @@ function checkAllModelsLoaded() {
     console.log("All models loaded, setting up arrow buttons");
     // Small delay to ensure DOM is ready
     setTimeout(setupArrowButtonListeners, 100);
-
-    getWeather(); // Fetch weather after models are loaded
   }
 }
 
@@ -1376,12 +1279,12 @@ function animate() {
         controls.enableDamping = true;
         controls.dampingFactor = 0.05;
 
-        if (controls.target.x > 0) controls.target.x = 0;
-        if (controls.target.x < 0) controls.target.x = 0;
-        if (controls.target.z > 0) controls.target.z = 0;
-        if (controls.target.z < 0) controls.target.z = 0;
-        if (controls.target.y > 0) controls.target.y = 0;
-        if (controls.target.y < 0) controls.target.y = 0;
+        if (controls.target.x > 5) controls.target.x = 5;
+        if (controls.target.x < -4.5) controls.target.x = -4.5;
+        if (controls.target.z > 5) controls.target.z = 5;
+        if (controls.target.z < -4.5) controls.target.z = -4.5;
+        if (controls.target.y > 8) controls.target.y = 8;
+        if (controls.target.y < 2) controls.target.y = 2;
     }
 
 
@@ -1394,6 +1297,19 @@ function animate() {
         const time = Date.now() * 0.001;
         foxBotBaseY = FoxBotModel.position.y;
         FoxBotModel.position.y = foxBotBaseY + Math.abs(Math.sin(time * bounceSpeed)) * bounceHeight;
+    }
+
+    // Tank Head swing animation
+    if (TankHeadModel && TankHeadModel.visible) {
+        const deltaTime = 0.2;
+        tankHeadSwingAngle += tankHeadSwingDirection * tankHeadSwingSpeed * deltaTime;
+        
+        if (tankHeadSwingAngle >= tankHeadMaxSwingAngle || tankHeadSwingAngle <= -tankHeadMaxSwingAngle) {
+            tankHeadSwingDirection *= -1;
+            tankHeadSwingAngle = Math.max(-tankHeadMaxSwingAngle, Math.min(tankHeadMaxSwingAngle, tankHeadSwingAngle));
+        }
+        
+        TankHeadModel.rotation.y = THREE.MathUtils.degToRad(tankHeadSwingAngle);
     }
 
   
@@ -1440,52 +1356,7 @@ function animate() {
     intersectObject = intersects[0].object.parent.name
 	}
 
-  //  Update Flash
-  if(Math.random() > 0.93 || flash.power > 100) {
-    if(flash.power < 100)
-        flash.position.set(Math.random() * 400, 300 + Math.random() * 200, 100);
-    flash.power = 50 + Math.random() * 500;
-  }
-
-  // Update Rain Particles
-  const positions = rainGeo.attributes.position.array;
-  const velocities = rainGeo.userData.velocities;
-            
-  for(let i = 0; i < rainCount; i++) {
-      const idx = i * 3 + 1; // y position index
-      // velocities[i] -= 0.1 + Math.random() * 0.1;
-      velocities[i] -= 0.005;
-      positions[idx] += velocities[i];
-                
-      // if (positions[idx] < -200) {
-      if (positions[idx] < 0) {
-          positions[idx] = 200;
-          velocities[i] = -1;
-          // velocities[i] = -0.005 - (Math.random() * 0.002);
-      }
-  }
-            
-  rainGeo.attributes.position.needsUpdate = true;
-  rain.rotation.y += 0.002;
-
-  // Update Snow Particles
-  const snowPositions = snowGeo.attributes.position.array;
-  const snowVelocities = snowGeo.userData.velocities;
-
-  for(let i = 0; i < snowCount; i++) {
-      const idx = i * 3 + 1; // y position index
-      // snowVelocities[i] -= 0.1 + Math.random() * 0.1;
-      snowVelocities[i] -= 0.001;
-      snowPositions[idx] += snowVelocities[i];
-                
-      if (snowPositions[idx] < 0) {
-          snowPositions[idx] = 200;
-          snowVelocities[i] = -1;
-      }
-  }
-
-  snowGeo.attributes.position.needsUpdate = true;
-  snow.rotation.y += 0.002;
+    // console.log(camera.position);
 
     renderer.render( scene, camera );
 }
@@ -1535,287 +1406,6 @@ function displayWeather(data) {
     const humidity = data.current.humidity;
     const windSpeed = data.current.wind_kph;
     const feelsLike = Math.round(data.current.feelslike_c);
-
-    // Check if condition contains "KEYWORDS" (case insensitive)
-    const isRaining = condition.toLowerCase().includes('rain');
-    const isOvercast = condition.toLowerCase().includes('overcast');
-    const isPartlyCloudy = condition.toLowerCase().includes('partly cloudy') ||
-                            condition.toLowerCase().includes('mostly cloudy');
-    const isThunder = condition.toLowerCase().includes('thunder');
-    
-    // Show/hide Visualization of weather based on weather condition
-    if (isRaining) {
-        // Show rain particles
-        if (rain) {
-            rain.visible = true;
-        }
-        if (flash) {
-            flash.visible = false;
-        }
-        // Show clouds
-        if (cloud1) {
-            cloud1.visible = true;
-        }
-        if (cloud2) {
-            cloud2.visible = true;
-        }
-        
-        // Apply dark theme lighting for rainy weather
-        gsap.to(light.color, {
-            r: 0.25,
-            g: 0.31,
-            b: 0.48,
-            duration: 1,
-            ease: "power2.inOut",
-        });
-
-        gsap.to(light, {
-            // intensity: 0.8,
-            intensity: 3,
-            duration: 1,
-            ease: "power2.inOut",
-        });
-
-        gsap.to(sun, {
-            intensity: 0.8,
-            duration: 1,
-            ease: "power2.inOut",
-        });
-
-        gsap.to(sun.color, {
-            r: 0.25,
-            g: 0.21,
-            b: 0.28,
-            duration: 1,
-            ease: "power2.inOut",
-        });
-
-        // Change scene background to darker color for rainy mood
-        // gsap.to(scene.background, {
-        //     r: 0.59,  // 0xc59fc5 converted to RGB: 197/255 = 0.77, 159/255 = 0.62, 197/255 = 0.77
-        //     g: 0.48,  // Darken these values for rainy mood
-        //     b: 0.59,
-        //     duration: 1,
-        //     ease: "power2.inOut",
-        // });
-
-      } else if (isOvercast) {
-        // Show Clouds only
-        if (rain) {
-            rain.visible = false;
-        }
-        if (flash) {
-            flash.visible = false;
-        }
-        // Show clouds
-        if (cloud1) {
-            cloud1.visible = true;
-        }
-        if (cloud2) {
-            cloud2.visible = true;
-        }
-
-        // Apply dark theme lighting for overcast weather
-        gsap.to(light.color, {
-            r: 0.25,
-            g: 0.31,
-            b: 0.48,
-            duration: 1,
-            ease: "power2.inOut",
-        });
-
-        gsap.to(light, {
-            // intensity: 0.8,
-            intensity: 3,
-            duration: 1,
-            ease: "power2.inOut",
-        });
-
-        gsap.to(sun, {
-            intensity: 0.8,
-            duration: 1,
-            ease: "power2.inOut",
-        });
-
-        gsap.to(sun.color, {
-            r: 0.25,
-            g: 0.21,
-            b: 0.28,
-            duration: 1,
-            ease: "power2.inOut",
-        });
-
-        // Change scene background to darker color for overcast mood
-        // gsap.to(scene.background, {
-        //     r: 0.59,  // 0xc59fc5 converted to RGB: 197/255 = 0.77, 159/255 = 0.62, 197/255 = 0.77
-        //     g: 0.48,  // Darken these values for overcast mood
-        //     b: 0.59,
-        //     duration: 1,
-        //     ease: "power2.inOut",
-        // });
-
-      } else if (isThunder) {
-        // Show thunder
-        if (rain) {
-            rain.visible = true;
-        }
-        if (flash) {
-            flash.visible = true;
-        }
-        // Show clouds
-        if (cloud1) {
-            cloud1.visible = true;
-        }
-        if (cloud2) {
-            cloud2.visible = true;
-        }
-        
-        // Apply dark theme lighting for thunder weather
-        gsap.to(light.color, {
-            r: 0.25,
-            g: 0.31,
-            b: 0.48,
-            duration: 1,
-            ease: "power2.inOut",
-        });
-
-        gsap.to(light, {
-            // intensity: 0.8,
-            intensity: 1.5,
-            duration: 1,
-            ease: "power2.inOut",
-        });
-
-        gsap.to(sun, {
-            intensity: 0.8,
-            duration: 1,
-            ease: "power2.inOut",
-        });
-
-        gsap.to(sun.color, {
-            r: 0.25,
-            g: 0.21,
-            b: 0.28,
-            duration: 1,
-            ease: "power2.inOut",
-        });
-
-        // Change scene background to darker color for thunder mood
-        // gsap.to(scene.background, {
-        //     r: 0.59,  // 0xc59fc5 converted to RGB: 197/255 = 0.77, 159/255 = 0.62, 197/255 = 0.77
-        //     g: 0.48,  // Darken these values for thunder mood
-        //     b: 0.59,
-        //     duration: 1,
-        //     ease: "power2.inOut",
-        // });
-
-      } else if (isPartlyCloudy) {
-        // Show partly cloudy
-        if (rain) {
-            rain.visible = false;
-        }
-        if (flash) {
-            flash.visible = false;
-        }
-        // Show clouds
-        if (cloud1) {
-            cloud1.visible = true;
-        }
-        if (cloud2) {
-            cloud2.visible = false;
-        }
-        
-        // Restore normal lighting when partly cloudy
-        gsap.to(light.color, {
-            r: 1.0,
-            g: 1.0,
-            b: 1.0,
-            duration: 1,
-            ease: "power2.inOut",
-        });
-
-        gsap.to(light, {
-            intensity: 3, // Darker than original ambient light intensity
-            duration: 1,
-            ease: "power2.inOut",
-        });
-
-        gsap.to(sun, {
-            intensity: 1,
-            duration: 1,
-            ease: "power2.inOut",
-        });
-
-        gsap.to(sun.color, {
-            r: 1.0,
-            g: 1.0,
-            b: 1.0,
-            duration: 1,
-            ease: "power2.inOut",
-        });
-
-        // Restore original scene background
-        // gsap.to(scene.background, {
-        //     r: 0.77,  // Original 0xc59fc5
-        //     g: 0.62,
-        //     b: 0.77,
-        //     duration: 1,
-        //     ease: "power2.inOut",
-        // });
-
-    } else {
-        // Hide weather particles
-        if (rain) {
-            rain.visible = false;
-        }
-        if (flash) {
-            flash.visible = false;
-        }
-        // Hide clouds
-        if (cloud1) {
-            cloud1.visible = false;
-        }
-        if (cloud2) {
-            cloud2.visible = false;
-        }
-        
-        gsap.to(light.color, {
-            r: 1.0,
-            g: 1.0,
-            b: 1.0,
-            duration: 1,
-            ease: "power2.inOut",
-        });
-
-        gsap.to(light, {
-            intensity: 3.5, // Your original ambient light intensity
-            duration: 1,
-            ease: "power2.inOut",
-        });
-
-        gsap.to(sun, {
-            intensity: 1,
-            duration: 1,
-            ease: "power2.inOut",
-        });
-
-        gsap.to(sun.color, {
-            r: 1.0,
-            g: 1.0,
-            b: 1.0,
-            duration: 1,
-            ease: "power2.inOut",
-        });
-
-        // Restore original scene background
-        // gsap.to(scene.background, {
-        //     r: 0.77,  // Original 0xc59fc5
-        //     g: 0.62,
-        //     b: 0.77,
-        //     duration: 1,
-        //     ease: "power2.inOut",
-        // });
-    }
             
     // Create the weather display HTML
     weatherContent.innerHTML = `
@@ -1837,9 +1427,6 @@ function displayWeather(data) {
             </div>
         </div>
     `;
-    
-    console.log(`Weather condition: ${condition}, Is raining: ${isRaining}`);
-    console.log(`Weather condition: ${condition}, Is overcast: ${isOvercast}`);
 }
 
 function displayError(message) {
@@ -1856,3 +1443,65 @@ function displayError(message) {
 // Fetch weather data when page loads
 getWeather();
 
+// ------ Theme codes ------
+const themeToggleButton = document.querySelector(".theme-mode-toggle-button");
+const firstIcon = document.querySelector(".first-icon");
+const secondIcon = document.querySelector(".second-icon");
+
+let isBright = true;
+
+// Toggle Theme Function
+function toggleTheme() {
+  isBright = !isBright;
+
+  const isDarkTheme = document.body.classList.contains("dark-theme");
+  document.body.classList.toggle("dark-theme");
+  document.body.classList.toggle("light-theme");
+
+  if (firstIcon.style.display === "none") {
+    firstIcon.style.display = "block";
+    secondIcon.style.display = "none";
+  } else {
+    firstIcon.style.display = "none";
+    secondIcon.style.display = "block";
+  }
+
+  gsap.to(light.color, {
+    r: isDarkTheme ? 1.0 : 0.25,
+    g: isDarkTheme ? 1.0 : 0.31,
+    // b: isDarkTheme ? 1.0 : 0.78,
+    b: isDarkTheme ? 1.0 : 0.48,
+    duration: 1,
+    ease: "power2.inOut",
+  });
+
+  gsap.to(light, {
+    intensity: isDarkTheme ? 0.8 : 0.9,
+    duration: 1,
+    ease: "power2.inOut",
+  });
+
+  gsap.to(sun, {
+    intensity: isDarkTheme ? 1 : 0.8,
+    duration: 1,
+    ease: "power2.inOut",
+  });
+
+  gsap.to(sun.color, {
+    r: isDarkTheme ? 1.0 : 0.25,
+    g: isDarkTheme ? 1.0 : 0.21,
+    // b: isDarkTheme ? 1.0 : 0.88,
+    b: isDarkTheme ? 1.0 : 0.28,
+    duration: 1,
+    ease: "power2.inOut",
+  });
+
+  renderer.setClearColor(isBright ? 0xeeeeee : 0x111111, 1);
+
+}
+
+// Theme toggle button
+themeToggleButton.addEventListener("click", function() {
+    // playButtonSound();
+    toggleTheme();
+});
